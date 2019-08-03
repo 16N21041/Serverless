@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Intro to AWS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="" />
+<meta name="copyright" content="" />
+<!-- Javascript SDK start-->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+    <script src="js/amazon-cognito-auth.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+    <script src="js/amazon-cognito-identity.min.js"></script>  
+    <script src="js/configinstructor.js"></script>
+<!-- Javascript SDK end-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" 
+crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/kickstart_one.css"> 
+<link rel="stylesheet" type="text/css" href="css/kickstart_two.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/kickstart.js"></script>
+</head><body>
+<div class="grid">
+	<center><h4 style="border-bottom: 3px solid firebrick; 
+	padding-bottom: 10px;">Class <span style="color: firebrick;">001</span></h4></center>
+	<div class="col_12">
+		<div class="col_9">
+		<h3>AWS Introduction</h3>
+		<i>Amazon Web Services (AWS) is the world’s most comprehensive and broadly adopted cloud platform, offering over 165 fully featured services from data centers globally. Millions of customers —including the fastest-growing startups, largest enterprises, and leading government agencies—trust AWS to power their infrastructure, become more agile, and lower costs.</i>
+		<p><strong>What is AWS?</strong> – Amazon Web Services(AWS) is a cloud service from Amazon, which provides services in the form of building blocks, these building blocks can be used to create and deploy any type of application in the cloud.<br>These services or building blocks are designed to work with each other, and result in applications which are sophisticated and highly scalable.</p>
+		<p><strong>Most Functionality:</strong><br>AWS provides services for broad range of applications including compute, storage, databases, networking, analytics, machine learning and artificial intelligence (AI), Internet of Things (IoT), security, and application development, deployment, and management.
+		<br>
+		In addition to having the greatest breadth of services, AWS also has the deepest functionality within those services. For example, Amazon EC2 offers more types and sizes of compute instances than any other provider, including the most powerful GPU instances for machine learning workloads. AWS also has more than double the number of database services than anyone else, with eleven relational and non-relational database offerings. And, AWS has the most ways to run containers, with Amazon Elastic Container Service (ECS), Amazon Elastic Container Service for Kubernetes (EKS), and AWS Fargate.
+		<br>
+		This broad selection of services and deep functionality make it easier, faster, and more cost-effective to migrate your existing apps to the cloud and build nearly anything you could imagine.</p>
+		<p><strong>Most Secure:</strong>
+			AWS has been architected to be the most flexible and secure cloud computing environment available today. Our core infrastructure is built to satisfy the security requirements for military, global banks, and other high-sensitivity organizations.
+			<br>
+			AWS uses the same secure hardware and software to build and operate each of our regions, so all of our customers benefit from the only commercial cloud that has had its service offerings and associated supply chain vetted and accepted as secure enough for top secret workloads. This is backed by a deep set of cloud security tools, with 203 security, compliance, and governance services and key features.
+			<br>
+			Moreover, AWS supports 85 security standards and compliance certifications, and all 116 AWS services that store customer data offer the ability to encrypt that data.
+		</p>
+		<p><strong>Fastest pace of innovation:</strong>
+			AWS released 1,957 new services and features in 2018, innovating at an unmatched pace, especially in new areas such as Machine Learning and Artificial Intelligence, Internet of Things, and Serverless Computing. With AWS, you can take advantage of the latest technologies to innovate, differentiate, and deliver solutions fast.
+			<br>
+			For example, in 2014, AWS pioneered the event-driven serverless computing space with the launch of AWS Lambda. AWS Lambda lets developers run their code without provisioning or managing servers, and you don’t have to worry about provisioning, scaling, patching, or managing any of the underlying servers.
+			<br>
+			In 2018, AWS became the first cloud provider to offer 100 Gbps of network bandwidth with our C5n EC2 instance types. This higher network performance can speed up results for a wide range of analytics, machine learning, big data, and data lake applications.
+		</p>
+		<p><strong>Largest community of customers and partners:</strong>
+			AWS has the largest and most dynamic ecosystem, with millions of active customers and tens of thousands of partners globally. Customers across virtually every industry and of every size, including start-ups, enterprises, and public sector organizations, are running every imaginable use case on AWS.
+			<br>
+			The AWS partner network includes thousands of systems integrators who specialize in AWS services and tens of thousands of independent software vendors (ISVs) who adapt their technology to work on AWS.
+			<br>
+			The AWS Marketplace, a digital catalog of software from ISVs that runs on AWS, offers 35 categories and more than 4,500 software listings from more than 1,400 ISVs, nearly two times more software listings than you can find anywhere else.</p>
+		<p><strong>Most proven operational expertise:</strong>
+			AWS has unmatched experience, maturity, reliability, security, and performance. AWS has been delivering cloud services for over 12 years to millions of customers around the world running a wide variety of use cases, and has the most operational experience, at greater scale, than any cloud provider.
+			<br>
+			Years of operating with many times the usage of any other cloud provider, combined with listening and learning from our customers and our commitment to constant iteration help us deliver superior operational performance that you can depend on for your most important workloads.</p>
+		<p><strong>* </strong>Each type of service in this “What is AWS” blog, is categorized under a domain, the few domains which are widely used are:<br>
+		<ul>
+			<li>Compute</li>
+			<li>Storage</li>
+			<li>Database</li>
+			<li>Migration</li>
+			<li>Network and Content Delivery</li>
+			<li>Management Tools</li>
+			<li>Security & Identity Compliance</li>
+			<li>Messaging</li>
+		</ul>
+	    </p>
+		<p>
+		The <strong>Compute</strong> domain includes services related to compute workloads, it includes the following services:<br>
+		<ul>
+			<li>EC2 (Elastic Compute Cloud)</li>
+			<li>Lambda</li>
+			<li>Elastic Beanstalk</li>
+			<li>Amazon LightSail </li>
+		</ul>
+		</p>
+		<p>
+		The <strong>Storage</strong> domain includes services related data storage, it includes the following services:
+	    <br>
+		<ul>
+			<li>S3 (Simple Storage Service)</li>
+			<li>Elastic Block Store</li>
+			<li>Amazon Glacier</li>
+			<li>AWS Snowball</li>
+		</ul>
+		</p>
+		<p>The <strong>Database</strong> domain is used for database related workloads, it includes the following services:<br>
+		<ul>
+			<li>Amazon Aurora</li>
+			<li>Amazon RDS</li>
+			<li>Amazon DynamoDB</li>
+			<li>AWS RedShift</li>
+		</ul>
+		</p>	
+		<p>The <strong>Migration</strong> domain is used for transferring data to or from the AWS Infrastructure, it includes the following services:
+	    <br>
+		<ul>
+			<li>AWS database Migration Service</li>
+			<li>AWS SnowBall</li>
+		</ul>
+		</p>
+		<p>
+			The <strong>Networking and Content Delivery</strong> domain is used for isolating your network infrastructure, and content delivery is used for faster delivery of content. It includes the following services:<br>
+			<ul>
+				<li>Amazon Route 53</li>
+				<li>AWS CloudFront</li>
+			</ul>
+		</p>	
+		<p>The <strong>Management Tools</strong> domain consists of services which are used to manage other services in AWS, it includes the following services:<br>
+		<ul>
+			<li>AWS CloudWatch</li>
+			<li>AWS CloudFomation</li>
+			<li>AWS CloudTrail</li>
+		</ul>
+		</p>
+		<p>The <strong>Security & Identity, Compliance</strong> domain consist of services which are used to manage to authenticate and provide security to your AWS resources. It consists of the following services:<br>
+		<ul>
+			<li>AWS IAM</li>
+			<li>AWS KMS</li>
+			<li>AWS Shield</li>
+		</ul>
+		</p>
+		<p>
+		The <strong>Messaging</strong> domain consists of services which are used for queuing, notifying or emailing messages. It consists of the following domains:<br>
+		<ul>
+			<li>Amazon SQS</li>
+			<li>Amazon SNS</li>
+			<li>Amazon SES</li>
+			<li>Amazon Pinpoint</li>
+		</ul>
+		</p>
+		<p>There are hundreds of AWS services, but for introduction point of view these many services are sufficient for gaining the basic understanding of - <strong>what is aws ?
+		</strong> </p>
+		</div>
+		<div class="col_3">
+		<h5><a href="index.html" style="text-decoration: none;"><strong><span style="color: firebrick;">easy-</span>Learn</strong></a></h5>
+		<ul class="icons">
+		<li style="color: firebrick;">Signup &nbsp;<i class="fa fa-caret-down"></i></li>
+		<a class="button orange small" href="studentsignup.html">Student</a>
+		<a class="button orange small" href="instructorsignup.html">Instructor</a>
+		<li style="color: firebrick;">Login &nbsp;<i class="fa fa-caret-down"></i></li>
+		<a class="button orange small" href="studentlogin.html">Student</a>
+		<a class="button orange small" href="instructorlogin.html">Instructor</a>
+		</ul>
+		</div>
+		<hr/>
+		<div class="col_3">
+		<a href="iclass_two.html" style="text-decoration: none;"><h4 style="color: firebrick;">DynamoDB Intro&nbsp;</h4></a>
+		<p>Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database.</p>
+		</div>
+		<div class="col_3">
+		<a href="iclass_three.html" style="text-decoration: none;"><h4 style="color: firebrick;">Cognito Intro&nbsp;</h4></a>
+		<p>Amazon Cognito provides authentication, authorization, and user management for your web and mobile apps. Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.</p>
+		</div>
+		<div class="col_3">
+		<a href="iclass_four.html" style="text-decoration: none;"><h4 style="color: firebrick;">Lambda Intro&nbsp;</h4></a>
+		<p>AWS Lambda is a service provided by Amazon. In a simpler way, you have to store your function on to cloud and trigger stored function with events like API calls, database modifications and many more etc.</p>
+		</div>
+		<div class="col_3">
+		<a href="iclass_five.html" style="text-decoration: none;"><h4 style="color: firebrick;">JavaScript Intro&nbsp;</h4></a>
+		<p>JavaScript is a very powerful client-side scripting language. JavaScript is used mainly for enhancing the interaction of a user with the webpage. In other words, you can make your webpage more lively and interactive, with the help of JavaScript.</p>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+	<h6 class="last_link"><span style="color: firebrick;">easy-</span><span style="color: #000;">Learning</span><span style="font-weight: bold; color: black">&nbsp;© 2019 All Rights Reserved&nbsp;</span>Terms of Use and Privacy Policy | Site Map</h6>
+</div>
+<script>
+	  var data = { 
+		UserPoolId : _config.cognito.userPoolId,
+        ClientId : _config.cognito.clientId
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+    var cognitoUser = userPool.getCurrentUser();
+	
+	  window.onload = function(){
+      if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            console.log('session validity: ' + session.isValid());
+			//Set the profile info.
+			cognitoUser.getUserAttributes(function(err, result) {
+				if (err) {
+					console.log(err);
+					return;
+				}
+				console.log(cognitoUser);	
+			});			
+			
+        });
+      }else{
+        window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/index.html");
+      }
+    }
+	  function signOut(){
+	    if (cognitoUser != null) {
+          cognitoUser.signOut();
+          var a = confirm("You have been signed out: Do you wish to move to Home page?");
+          if(a == true){
+          	window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/index.html");
+          }
+          else{
+          	window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/studentlogin.html");
+          }
+        }
+	  }
+    </script>
+</body>
+</html>

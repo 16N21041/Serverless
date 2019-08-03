@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DynamoDB Working</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="" />
+<meta name="copyright" content="" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" 
+crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/kickstart_one.css"> 
+<link rel="stylesheet" type="text/css" href="css/kickstart_two.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/kickstart.js"></script>
+</head><body>
+<div class="grid">
+	<center><h4 style="border-bottom: 3px solid firebrick; 
+	padding-bottom: 10px;">Working With <span style="color: firebrick;">DynamoDB</span></h4></center>
+	<div class="col_12">
+		<div class="col_9">
+		<p>DynamoDB is a <strong>NoSQL database</strong> provided by Amazon, and it works as a key-value store or document database with really fast response times. It's fully managed — taking this burden from you — and it has many features built in. In this post, we are going to migrate a CLI application from using local storage to use DynamoDB and go through the basic operations of its SDK in the JVM.</p><br>
+		<p><strong>Background:</strong><br>
+			A few months ago at Maple Inside we accepted to take in charge an existing project to improve and finish it. Backend API were written in Python with PostgreSQL as database and the frontend was built on top of the PHP framework Laravel.
+			As the code was really a mess with a lot of security holes, we found it easy to do a complete rewrite using our stacks (NodeJS for API, and React for application).
+			As data were poorly relational and because I always want to try new stuff, I decided to use DynamoDB as the main database.</p>
+			<p><strong>What is dynamoDB:</strong><br>
+			According to the doc, Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability
+			DynamoDB is similar to Cassandra or Redis, it’s a key-value database which stores JSON object. It’s pretty different from mongoDB because the query langage is a lot simplier. You can’t aggregate data while querying like SUM, AVG...</p>
+			<p>Here is a brief overview of the main dynamoDB terms:-<p>
+			<p><strong>Hash key &Range key:</strong><br>
+			Hask key (also called partition key) is mandatory and must be unique. Each object has a hask key, it’s the primary key of your tables. There is no auto increment feature, so you can use whatever you want as key as long as it is unique.
+			Range key (also called sort key) is optional. If you choose to use it, the combination hash+range key must be unique. In that case you can have duplicate hash key. This key allow you to sort your objects on it.</p>
+			<p><strong>Global Secondary Index:</strong><br>
+			You can create 2 type of index to query data efficiently. You have to think about Index like automatic tables that are synced with your table. DynamoDB stores objects on several servers but the hash key is always on the same server of the cluster.
+			A global secondary index (GSI) is an index across all servers.
+			Ex : the user table contains email which is used for the login action. So we need to create an index on that attribute. Like we need all email across all server, we create a GSI. Now when a user log into the website, we look for his email in the Index instead of the user Table.</p>
+			<p><strong>Local Secondary Index:</strong><br>
+			The local secondary index (LSI) is an index restricted to a single server. I didn’t use LSI yet for that project but according to the doc, an example is, suppose you have a forumName (hash key) which contains topics. You can add a LSI using Topics attribute. It will allow you to sort by Topics into a specific forum.</p>
+			<p><strong>The pros:</strong><br>
+			<ul>
+				<li>API:
+					<ul>
+						<li>DynamoDB is a webservice accessible via an API and the documentation is clear enough to easily use it.</li>
+					</ul>
+				</li>
+				<li>Easy, Fast & Cheap:
+					<ul>
+						<li>It’s really easy to start with, just create a Table via AWS console and you’re done, you can start add data into it. I was surprised by the speed of the queries. Event with hundred thousands of objects, it takes less than 100 ms including network latency.</li>
+						<li>The pricing depends of the provisioned throughput you set on read and write capacity.</li>
+					</ul>
+				</li>
+				<li>NoSQL:
+					<ul>
+						<li>DynamoDB as a NoSQL database is schemaless, so you can put whatever you want. No constraints on the data you want to store. Generally you will use an ORM to access your data which will force you to follow a certain schema but that’s not mandatory.</li>
+					</ul>
+				</li>
+				<li>Events:
+					<ul>
+						<li>You can enable stream logs to trigger some actions according to events you receive. For each DELETE you can throw the event to a lambda function for example. That’s also the solution to replicate your tables.
+						</li>
+					</ul>
+				</li>
+				<li>DynamoDB local & dynalite (github):
+					<ul>
+						<li>Of course for development you will need to have dynamo in local. I personnaly work with docker so I test 2 differents images of dynamo. The 1st image is build compiling the official source of dynamoDB local (docker) but it has some small differences with the service so I found dynalite (docker). It was a bit better but I still have some differents behaviors so I ended working directly on dynamoDB and accept the latency.</li>
+					</ul>
+				</li>			
+			</ul>
+			<p><strong>The cons and how bypass them:</strong><br>
+			<ul>
+				<li>No database:
+					<ul>
+						<li>
+						Seem incredible but you don’t have any Database with DynamoDB, you only declare Tables under your account. It means that your table name must be unique by region. It also harder to fully separate your differents environments. We had 2 solutions for having a staging and a prod env. First we could use 2 differents regions (us-west-1 ans us-east-1). Secondly and that’s what we did, using the environment as prefix for tables.</li>
+					</ul>
+				</li>
+				<li>Backup:
+					<ul>
+						<li>When AWS says it’s fully managed … I would say, almost. There is no backup include natively. However you can easily do it with datapipeline to backup your data in S3.</li>
+					</ul>
+				</li>
+				<li>Case sensitive:
+					<ul>
+						<li>This behavior make the search very hard. Contrary to mongoDB, you can’t search using regexp, which is not efficient by the way. We have 2 solutions for this.<br>
+						First, we use a normalized attribute which contains the lowercase and deburr (lodash) version of the attribute we have a search feature on.<br>
+						Secondly for more powerful searches, we are using ElasticSearch.</li>
+					</ul>
+				</li>
+				<li>Pagination:
+					<ul>
+						<li>There is no limit and offset parameter as we know with MySQL or mongoDB. DynamoDB send you a 1Mb response max with the last key it found and if the result is truncated. It means you have to loop until the resultset isn’t truncated. The problem is that you can’t have the total of objects before running across all your table. No total, no pagination. However you can change your pagination for a next and previous button only.</li>
+					</ul>
+				</li>
+			</ul>
+		</p>
+		<p>There are hundreds of AWS services, but for introduction point of view these many services are sufficient for gaining the basic understanding of - <strong>what is aws ?
+		</strong> </p>
+		</div>
+		<div class="col_3">
+		<h5><a href="index.html" style="text-decoration: none;"><strong><span style="color: firebrick;">easy-</span>Learn</strong></a></h5>
+		<ul class="icons">
+		<li style="color: firebrick;">Signup &nbsp;<i class="fa fa-caret-down"></i></li>
+		<a class="button orange small" href="studentsignup.html">Student</a>
+		<a class="button orange small" href="instructorsignup.html">Instructor</a>
+		<li style="color: firebrick;">Login &nbsp;<i class="fa fa-caret-down"></i></li>
+		<a class="button orange small" href="studentlogin.html">Student</a>
+		<a class="button orange small" href="instructorlogin.html">Instructor</a><br><br>
+		<a class="button orange small" href="class_two.html">Back to previous page</a>
+		</ul>
+		</div>
+		<hr/>
+		<div class="col_3">
+		<a href="class_one.html" style="text-decoration: none;"><h4 style="color: firebrick;">
+		AWS Intro&nbsp;</h4></a>
+		<p>Amazon Web Services(AWS) is a cloud service from Amazon, which provides services in the form of building blocks, these building blocks can be used to create and deploy any type of application in the cloud.</p>
+		</div>
+		<div class="col_3">
+		<a href="class_three.html" style="text-decoration: none;"><h4 style="color: firebrick;">Cognito Intro&nbsp;</h4></a>
+		<p>Amazon Cognito provides authentication, authorization, and user management for your web and mobile apps. Your users can sign in directly with a user name and password, or through a third party such as Facebook, Amazon, or Google.</p>
+		</div>
+		<div class="col_3">
+		<a href="class_four.html" style="text-decoration: none;"><h4 style="color: firebrick;">Lambda Intro&nbsp;</h4></a>
+		<p>AWS Lambda is a service provided by Amazon. In a simpler way, you have to store your function on to cloud and trigger stored function with events like API calls, database modifications and many more etc.</p>
+		</div>
+		<div class="col_3">
+		<a href="class_five.html" style="text-decoration: none;"><h4 style="color: firebrick;">JavaScript Intro&nbsp;</h4></a>
+		<p>JavaScript is a very powerful client-side scripting language. JavaScript is used mainly for enhancing the interaction of a user with the webpage. In other words, you can make your webpage more lively and interactive, with the help of JavaScript.</p>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+	<h6 class="last_link"><span style="color: firebrick;">easy-</span><span style="color: #000;">Learning</span><span style="font-weight: bold; color: black">&nbsp;© 2019 All Rights Reserved&nbsp;</span>Terms of Use and Privacy Policy | Site Map</h6>
+</div>
+</body>
+</html>

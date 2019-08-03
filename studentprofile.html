@@ -1,0 +1,127 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hello Student</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/kickstart_one.css">
+  <link rel="stylesheet" type="text/css" href="css/kickstart_two.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/kickstart.js"></script>
+
+  <!-- Javascript SDK start-->
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="js/amazon-cognito-auth.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+  <script src="js/amazon-cognito-identity.min.js"></script>
+  <script src="js/configstudent.js"></script>
+  <!-- Javascript SDK end-->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Barlow Semi Condensed' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/studentprofile.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo"><a href="index.html">Learning</a></div>
+    <nav>
+      <ul>
+        <li class="sub_menu"><a>Student Profile&nbsp;<i class="fa fa-caret-down"></i></a>
+          <ul>
+            <li><button style="width: 100%; background: firebrick; color: white;" type="button" id="move"
+                onclick="signOut()">Logout</button></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="menu_toggle"><i class="fa fa-bars" aria-hidden="true"></i></div>
+    <script>
+      $(document).ready(function () {
+        $('.menu_toggle').click(function () {
+          $('nav').toggleClass('active');
+        })
+      })
+    </script>
+  </header>
+  <div class="grid">
+    <center>
+      <h5 style="border-bottom: 3px solid firebrick; 
+    padding-bottom: 10px; top: 70px; position: relative;"><span
+          style="font-size: 18px; color: firebrick;">Welcome</span>&nbsp;<span id="email_value"
+          style="font-weight: bold;"></span>&nbsp;
+        (Student)</h5>
+    </center>
+  </div>
+  <div style="position: relative; top: 100px; height: fit-content; left: 20%; 
+  width: fit-content;">
+    <h4><strong>My Classes:</strong></h4><br>
+    <p>
+      <ul>
+        <li><strong>AWS Intro</strong> - <a href="studentClasses/class_one.html">View Class</a></li>
+        <li><strong>DynamoDB Intro</strong> - <a href="studentClasses/class_two.html">View Class</a></li>
+        <li><strong>Cognito Intro</strong> - <a href="studentClasses/class_three.html">View Class</a></li>
+        <li><strong>Lambda Intro</strong> - <a href="studentClasses/class_four.html">View Class</a></li>
+        <li><strong>JavaScript Intro</strong> - <a href="studentClasses/class_five.html">
+        View Class</a></li>
+        <li><strong>HTML5 Intro</strong> - <a href="studentClasses/class_six.html">View Class</a></li>
+      </ul>
+    </p>
+  </div>
+  <script>
+    var data = {
+      UserPoolId: _config.cognito.userPoolId,
+      ClientId: _config.cognito.clientId
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+    var cognitoUser = userPool.getCurrentUser();
+
+    window.onload = function () {
+      if (cognitoUser != null) {
+        console.log(cognitoUser);
+        cognitoUser.getSession(function (err, session) {
+          if (err) {
+            alert(err);
+            return;
+          }
+          console.log('session validity: ' + session.isValid());
+
+          //Set the profile info.
+          cognitoUser.getUserAttributes(function (err, result) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            console.log(cognitoUser);
+            document.getElementById("email_value").innerHTML = result[2].getValue();
+          });
+
+        });
+      } else {
+        window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/index.html");
+      }
+    }
+
+    function signOut() {
+      if (cognitoUser != null) {
+        cognitoUser.signOut();
+        var a = confirm("You have been signed out: Do you wish to move to Home page?");
+        if (a == true) {
+          window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/index.html");
+        } else {
+          window.location.replace("https://joshiketan.s3.ap-south-1.amazonaws.com/studentlogin.html");
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
